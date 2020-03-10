@@ -51,13 +51,18 @@ class HashTable:
 
         Fill this in.
         '''
-        storing = LinkedPair(key, value)
-        something = self._hash_mod(key)
-        if self.storage[something] != None:
-            self.storage[something].next = storing
-        else: 
-            self.storage.insert(something, storing)
-        print(storing, something)
+        index = self._hash_mod(key)
+        if self.storage[index] is not None:
+            self.storage[index].next = (LinkedPair(key, value))
+        else:
+            self.storage[index] = LinkedPair(key, value)
+        # storing = LinkedPair(key, value)
+        # index = self._hash_mod(key)
+        # if self.storage[index] != None:
+        #     self.storage[index].next = storing
+        # else: 
+        #     self.storage.insert(index, storing)
+        # print(storing, index)
 
 
 
@@ -69,7 +74,11 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        if self.storage[index] == None:
+            print('WARNING: key not found')
+        else:
+            self.storage[index] = None
 
 
     def retrieve(self, key):
@@ -80,20 +89,8 @@ class HashTable:
 
         Fill this in.
         '''
-        index =self._hash_mod(key)
-        current = self.storage[index]
-        
-        if current != None:
-            if current.key == key:
-                return current.value
-            else:
-                while current != None:
-                    if current.key == key:
-                        return current.value
-                    current = current.next
-        else:
-            return None
-
+        index = self._hash_mod(key)
+        return self.storage[index]
 
     def resize(self):
         '''
@@ -103,7 +100,11 @@ class HashTable:
         Fill this in.
         '''
         pass
-
+        # old = self.storage.copy()
+        # self.capacity = self.capacity * 2
+        # self.storage = [None] * self.capacity
+        # for item in old:
+        #     self.insert(item.key, item.value)
 
 
 if __name__ == "__main__":
