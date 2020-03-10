@@ -47,14 +47,17 @@ class HashTable:
         '''
         Store the value with the given key.
 
-        # Part 1: Hash collisions should be handled with an error warning. (Think about and
-        # investigate the impact this will have on the tests)
-
-        # Part 2: Change this so that hash collisions are handled with Linked List Chaining.
+        Hash collisions should be handled with Linked List Chaining.
 
         Fill this in.
         '''
-        pass
+        storing = LinkedPair(key, value)
+        something = self._hash_mod(key)
+        if self.storage[something] != None:
+            self.storage[something].next = storing
+        else: 
+            self.storage.insert(something, storing)
+        print(storing, something)
 
 
 
@@ -77,7 +80,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index =self._hash_mod(key)
+        current = self.storage[index]
+        
+        if current != None:
+            if current.key == key:
+                return current.value
+            else:
+                while current != None:
+                    if current.key == key:
+                        return current.value
+                    current = current.next
+        else:
+            return None
 
 
     def resize(self):
