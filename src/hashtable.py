@@ -52,18 +52,20 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        if self.storage[index] is not None:
-            self.storage[index].next = (LinkedPair(key, value))
+        print(index, 'Insert', key)
+        #checks if bucket is empty
+        if self.storage[index] is not None: #bucket is not empty
+            node = self.storage[index]
+            while node.next is not None: #node is not empty
+                if node.key == key: #if the keys match though, overwrite the value
+                    node.value = value
+                    return
+                node = node.next #if the keys dont match then goes to next node and repeats
+            print('the next node was None')
+            node.next = LinkedPair(key, value) #executed when the next node is None
+            return
         else:
             self.storage[index] = LinkedPair(key, value)
-        # storing = LinkedPair(key, value)
-        # index = self._hash_mod(key)
-        # if self.storage[index] != None:
-        #     self.storage[index].next = storing
-        # else: 
-        #     self.storage.insert(index, storing)
-        # print(storing, index)
-
 
 
     def remove(self, key):
@@ -75,8 +77,15 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        if self.storage[index] == None:
-            print('WARNING: key not found')
+        if self.storage[index].key is not key:
+            node = self.storage[index]
+            while node is not None:
+                if node.key == key:
+                    prev = node
+                    prev.next = node.next
+                    node = None
+                    return
+                node = node.next
         else:
             self.storage[index] = None
 
@@ -90,7 +99,14 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        return self.storage[index]
+        #checks if bucket is emtpy
+        if self.storage[index] is not None: #bucket has something in it
+            node = self.storage[index]
+            while node is not None: #goes through LL as long as node != None
+                if node.key == key:
+                    return node.value
+                node = node.next
+            print('could not find node with that key')
 
     def resize(self):
         '''
