@@ -46,9 +46,7 @@ class HashTable:
     def insert(self, key, value):
         '''
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
         Fill this in.
         '''
         index = self._hash_mod(key)
@@ -56,13 +54,16 @@ class HashTable:
         #checks if bucket is empty
         if self.storage[index] is not None: #bucket is not empty
             node = self.storage[index]
-            while node.next is not None: #node is not empty
+            while node.next is not None: #next node is not empty
                 if node.key == key: #if the keys match though, overwrite the value
                     node.value = value
                     return
                 node = node.next #if the keys dont match then goes to next node and repeats
             print('the next node was None')
-            node.next = LinkedPair(key, value) #executed when the next node is None
+            if node.key == key:
+                node.value = value
+            else:
+                node.next = LinkedPair(key, value) #executed when the next node is None
             return
         else:
             self.storage[index] = LinkedPair(key, value)
@@ -71,9 +72,7 @@ class HashTable:
     def remove(self, key):
         '''
         Remove the value stored with the given key.
-
         Print a warning if the key is not found.
-
         Fill this in.
         '''
         index = self._hash_mod(key)
@@ -93,9 +92,7 @@ class HashTable:
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
-
         Returns None if the key is not found.
-
         Fill this in.
         '''
         index = self._hash_mod(key)
