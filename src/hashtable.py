@@ -50,7 +50,6 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        print(index, 'Insert', key)
         #checks if bucket is empty
         if self.storage[index] is not None: #bucket is not empty
             node = self.storage[index]
@@ -59,7 +58,6 @@ class HashTable:
                     node.value = value
                     return
                 node = node.next #if the keys dont match then goes to next node and repeats
-            print('the next node was None')
             if node.key == key:
                 node.value = value
             else:
@@ -76,6 +74,7 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
+        #checks if the nodes keys match
         if self.storage[index].key is not key:
             node = self.storage[index]
             while node is not None:
@@ -112,12 +111,21 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-        # old = self.storage.copy()
-        # self.capacity = self.capacity * 2
-        # self.storage = [None] * self.capacity
-        # for item in old:
-        #     self.insert(item.key, item.value)
+        #copy over prev hash to variable
+        old = self.storage.copy()
+        #double capcity
+        self.capacity = self.capacity * 2
+        self.storage = [None] * self.capacity
+        #iterate through the hash
+        for item in old:
+            node = item
+            if node is not None: #the bucket was not empty
+                while node is not None:
+                    self.insert(node.key, node.value)
+                    node = node.next
+
+            else:
+                print('it was none')
 
 
 if __name__ == "__main__":
